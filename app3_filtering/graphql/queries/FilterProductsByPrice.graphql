@@ -1,0 +1,5 @@
+query FilterProductsByPrice($minPrice: Float, $maxPrice: Float) {
+  filterProducts(minPrice: $minPrice, maxPrice: $maxPrice) {
+    ...ProductFields
+  }
+}

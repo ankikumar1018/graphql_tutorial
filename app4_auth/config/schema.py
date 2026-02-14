@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password, make_password
 from graphene_django import DjangoObjectType
-from graphene_django.filter import DjangoFilterBackend
 from auth_app.models import UserProfile, Post, Comment, ActivityLog
 from django.conf import settings
 from functools import wraps

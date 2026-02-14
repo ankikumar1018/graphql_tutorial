@@ -1,6 +1,6 @@
-# App 5: Performance, Testing, Real-time & Production
+# App 5: Performance & Real-time
 
-Complete GraphQL application demonstrating production-ready patterns: query optimization, performance monitoring, testing strategies, and deployment best practices.
+Complete GraphQL application demonstrating performance optimization patterns: query optimization, performance monitoring, and real-time capabilities.
 
 ## Quick Start
 
@@ -295,67 +295,6 @@ query {
 }
 ```
 
-## Testing Patterns
-
-### Django TestCase Example
-
-```python
-from django.test import TestCase
-from perf_app.models import Organization, Employee
-
-class EmployeeTestCase(TestCase):
-    def setUp(self):
-        self.org = Organization.objects.create(
-            name='Test Corp',
-            slug='test-corp'
-        )
-        self.emp = Employee.objects.create(
-            name='John Doe',
-            email='john@test.com',
-            department='Engineering',
-            salary=80000,
-            organization=self.org
-        )
-    
-    def test_employee_creation(self):
-        self.assertEqual(self.emp.organization, self.org)
-        self.assertEqual(self.emp.department, 'Engineering')
-    
-    def test_organization_employee_relationship(self):
-        employees = self.org.employees.all()
-        self.assertEqual(employees.count(), 1)
-        self.assertIn(self.emp, employees)
-```
-
-### GraphQL Query Testing
-
-```python
-from graphene.test import Client
-from config.schema import schema
-
-class GraphQLTestCase(TestCase):
-    def setUp(self):
-        self.client = Client(schema)
-        self.org = Organization.objects.create(
-            name='Test Corp',
-            slug='test-corp'
-        )
-    
-    def test_organization_query(self):
-        query = '''
-            query {
-                organization(id: 1) {
-                    id
-                    name
-                    slug
-                }
-            }
-        '''
-        result = self.client.execute(query)
-        self.assertIsNone(result.get('errors'))
-        self.assertEqual(result['data']['organization']['name'], 'Test Corp')
-```
-
 ## Performance Monitoring
 
 ### Tracking Metrics
@@ -402,156 +341,6 @@ query {
     minValue
   }
 }
-```
-
-## Production Deployment
-
-### Environment Variables
-
-```bash
-# .env file
-DEBUG=False
-SECRET_KEY=your-secret-key-here
-ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com
-DATABASE_URL=postgresql://user:pass@localhost/graphql_db
-CACHE_BACKEND=redis://localhost:6379/0
-```
-
-### Settings for Production
-
-```python
-# config/settings.py
-
-DEBUG = False
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
-
-# Database - PostgreSQL for production
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': '5432',
-    }
-}
-
-# Caching - Redis for production
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    }
-}
-
-# Security settings
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-```
-
-### Database Optimization
-
-**1. Create Indexes:**
-```bash
-python manage.py migrate
-# Migrations automatically create all defined indexes
-```
-
-**2. Query Analysis (PostgreSQL):**
-```sql
-EXPLAIN ANALYZE SELECT * FROM employee WHERE organization_id = 1;
-```
-
-**3. Monitor Slow Queries:**
-```python
-# settings.py
-LOGGING = {
-    'version': 1,
-    'handlers': {
-        'console': {'class': 'logging.StreamHandler'},
-    },
-    'loggers': {
-        'django.db.backends': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-    },
-}
-```
-
-### Caching Strategy
-
-**1. Development (LocMemCache):**
-- Single process
-- No persistence
-- Perfect for local testing
-
-**2. Production (Redis):**
-- Distributed cache
-- Persistent
-- Multiple processes
-- High performance
-
-```bash
-# Install Redis
-# Ubuntu/Debian
-sudo apt-get install redis-server
-
-# macOS
-brew install redis
-
-# Start Redis
-redis-server
-```
-
-**3. Cache Key Strategy:**
-```python
-# User-specific cache
-cache_key = f'user_{user.id}_recommendations'
-
-# Time-based versioning
-cache_key = f'stats_{date.today().isoformat()}'
-
-# Dependency tracking
-cache_key = f'org_{org.id}_employees_v{org.updated_at.timestamp()}'
-```
-
-### Rate Limiting
-
-```python
-# Install
-pip install djangorestframework
-
-from rest_framework.throttling import UserRateThrottle
-
-class GraphQLRateThrottle(UserRateThrottle):
-    scope = 'graphql'
-    THROTTLE_RATES = {
-        'graphql': '100/hour'
-    }
-```
-
-### Error Tracking
-
-```python
-# Install Sentry
-pip install sentry-sdk
-
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-
-sentry_sdk.init(
-    dsn="https://...@sentry.io/...",
-    integrations=[DjangoIntegration()],
-    traces_sample_rate=1.0,
-)
 ```
 
 ## Real-time Capabilities (GraphQL Subscriptions)
@@ -607,8 +396,7 @@ schema = Schema(query=Query, subscription=Subscription)
 3. **Review resolvers:** See how select_related/prefetch_related work
 4. **Check database indexes:** Look at models.py Meta.indexes
 5. **Monitor performance:** Use Performance model queries
-6. **Study TestResult:** Track test execution patterns
-7. **Deploy to production:** Follow deployment checklist
+6. **Study patterns:** Review optimization techniques in resolvers
 
 ## File Structure
 
@@ -673,4 +461,4 @@ app5_performance/
 - App 2: Mutations, Validation & Relationships
 - App 3: Filtering, Sorting, Pagination
 - App 4: Authentication, Authorization & Permissions
-- **App 5: Performance, Testing & Production** ← You are here
+- **App 5: Performance & Real-time** ← You are here

@@ -1,0 +1,7 @@
+fragment PublisherFields on PublisherType {
+  id
+  name
+  country
+  website
+  createdAt
+}

@@ -183,7 +183,6 @@ class Query(graphene.ObjectType):
     
     # Statistics & Aggregations
     employee_stats_by_department = graphene.List(EmployeeStatsType)
-    organization_stats = graphene.List(graphene.ObjectType)
     
     # ==================== Resolvers ====================
     

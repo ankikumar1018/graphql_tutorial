@@ -1,0 +1,8 @@
+query GetPost($postId: Int!) {
+  post(id: $postId) {
+    ...PostFields
+    author {
+      ...UserFields
+    }
+  }
+}

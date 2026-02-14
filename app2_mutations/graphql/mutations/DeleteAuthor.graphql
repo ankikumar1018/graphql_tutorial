@@ -1,0 +1,6 @@
+mutation DeleteAuthor($id: Int!) {
+  deleteAuthor(id: $id) {
+    success
+    message
+  }
+}

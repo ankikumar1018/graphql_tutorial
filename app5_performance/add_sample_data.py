@@ -280,9 +280,12 @@ def create_test_results():
         status = random.choice(statuses)
         execution_time = random.uniform(0.1, 5.0)  # seconds
         
-        error_msg = None
         if status == 'failed':
             error_msg = f"AssertionError: Expected {random.randint(1, 100)} but got {random.randint(1, 100)}"
+        elif status == 'skipped':
+            error_msg = "Test skipped: Deprecated functionality"
+        else:
+            error_msg = "Test passed successfully"
         
         created_at = now - timedelta(
             hours=random.randint(1, 48)

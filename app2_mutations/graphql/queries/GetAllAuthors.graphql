@@ -1,0 +1,5 @@
+query GetAllAuthors {
+  allAuthors {
+    ...AuthorFields
+  }
+}

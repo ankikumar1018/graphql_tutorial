@@ -1,0 +1,5 @@
+query GetOrganization($orgId: Int!) {
+  organization(id: $orgId) {
+    ...OrganizationFields
+  }
+}

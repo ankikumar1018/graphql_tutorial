@@ -1,0 +1,8 @@
+query GetProjectsWithTeams {
+  allProjects {
+    ...ProjectFields
+    teamMembers {
+      ...EmployeeFields
+    }
+  }
+}

@@ -1,0 +1,9 @@
+mutation UpdatePost($input: UpdatePostInput!) {
+  updatePost(input: $input) {
+    success
+    message
+    post {
+      ...PostFields
+    }
+  }
+}

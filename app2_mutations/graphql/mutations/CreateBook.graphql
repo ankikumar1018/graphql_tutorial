@@ -1,0 +1,9 @@
+mutation CreateBook($input: CreateBookInput!) {
+  createBook(input: $input) {
+    success
+    message
+    book {
+      ...BookFields
+    }
+  }
+}

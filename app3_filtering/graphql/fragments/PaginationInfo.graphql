@@ -1,0 +1,8 @@
+fragment PaginationInfo on ProductPaginatedType {
+  page
+  pageSize
+  totalPages
+  totalCount
+  hasNextPage
+  hasPreviousPage
+}

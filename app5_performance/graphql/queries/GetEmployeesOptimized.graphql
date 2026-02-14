@@ -1,0 +1,8 @@
+query GetEmployeesOptimized($organizationId: Int!) {
+  employeesByOrganization(organizationId: $organizationId) {
+    ...EmployeeFields
+    organization {
+      ...OrganizationFields
+    }
+  }
+}

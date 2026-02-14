@@ -1,0 +1,8 @@
+query FilterProductsByCategory($categoryName: String!) {
+  filterProducts(categoryName: $categoryName) {
+    ...ProductFields
+    category {
+      ...CategoryFields
+    }
+  }
+}

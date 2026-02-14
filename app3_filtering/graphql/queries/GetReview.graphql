@@ -1,0 +1,8 @@
+query GetReview($reviewId: Int!) {
+  review(id: $reviewId) {
+    ...ReviewFields
+    product {
+      title
+    }
+  }
+}

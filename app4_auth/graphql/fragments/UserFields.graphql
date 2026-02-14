@@ -1,0 +1,11 @@
+fragment UserFields on UserProfileType {
+  id
+  user {
+    username
+    email
+  }
+  firstName
+  lastName
+  role
+  createdAt
+}

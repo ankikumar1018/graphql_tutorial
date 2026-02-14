@@ -841,7 +841,7 @@ Use the included Postman collection:
 ## What's Next?
 
 After mastering App 4, explore:
-- **App 5:** Performance, Testing, Real-time & Production Deployment
+- **App 5:** Performance & Real-time
 
 ---
 

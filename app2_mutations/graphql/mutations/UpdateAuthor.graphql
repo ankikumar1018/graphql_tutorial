@@ -1,0 +1,9 @@
+mutation UpdateAuthor($input: UpdateAuthorInput!) {
+  updateAuthor(input: $input) {
+    success
+    message
+    author {
+      ...AuthorFields
+    }
+  }
+}

@@ -1,0 +1,7 @@
+fragment CategoryFields on CategoryType {
+  id
+  name
+  slug
+  description
+  createdAt
+}

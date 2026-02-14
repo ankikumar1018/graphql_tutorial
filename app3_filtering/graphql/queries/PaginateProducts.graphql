@@ -1,0 +1,8 @@
+query PaginateProducts($page: Int!, $pageSize: Int) {
+  paginatedProducts(page: $page, pageSize: $pageSize) {
+    ...PaginationInfo
+    results {
+      ...ProductFields
+    }
+  }
+}

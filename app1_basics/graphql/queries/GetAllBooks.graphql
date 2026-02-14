@@ -1,0 +1,8 @@
+query GetAllBooks {
+  allBooks {
+    ...BookFields
+    author {
+      ...AuthorFields
+    }
+  }
+}

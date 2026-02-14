@@ -1,0 +1,8 @@
+query GetBook($bookId: Int!) {
+  book(id: $bookId) {
+    ...BookFields
+    author {
+      ...AuthorFields
+    }
+  }
+}

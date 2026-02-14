@@ -1,0 +1,5 @@
+query SortProducts($sortBy: String!) {
+  sortProducts(sortBy: $sortBy) {
+    ...ProductFields
+  }
+}

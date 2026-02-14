@@ -30,6 +30,7 @@ env/
 .venv
 env.bak/
 venv.bak/
+.venv_tests/
 
 # Django
 *.log
@@ -80,6 +81,7 @@ yarn-error.log
 .pytest_cache/
 htmlcov/
 .tox/
+*/test_output.txt
 
 # IDE generated files
 .mypy_cache/

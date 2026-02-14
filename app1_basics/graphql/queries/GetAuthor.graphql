@@ -1,0 +1,5 @@
+query GetAuthor($authorId: Int!) {
+  author(id: $authorId) {
+    ...AuthorFields
+  }
+}

@@ -1,0 +1,12 @@
+fragment ProjectFields on ProjectType {
+  id
+  name
+  slug
+  description
+  status
+  budget
+  completionPercentage
+  startDate
+  endDate
+  teamSize
+}

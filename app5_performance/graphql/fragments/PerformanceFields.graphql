@@ -1,0 +1,8 @@
+fragment PerformanceFields on PerformanceType {
+  id
+  metricType
+  value
+  endpoint
+  statusCode
+  timestamp
+}

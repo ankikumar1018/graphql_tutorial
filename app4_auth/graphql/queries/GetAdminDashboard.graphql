@@ -1,0 +1,11 @@
+query GetAdminDashboard {
+  allUsers {
+    ...UserFields
+  }
+  allPosts {
+    ...PostFields
+  }
+  allActivity {
+    ...ActivityLogFields
+  }
+}

@@ -1,0 +1,9 @@
+fragment OrganizationFields on OrganizationType {
+  id
+  name
+  slug
+  description
+  website
+  isActive
+  createdAt
+}

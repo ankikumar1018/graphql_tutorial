@@ -1,0 +1,5 @@
+query GetActivityLog($userId: Int) {
+  allActivity(userId: $userId) {
+    ...ActivityLogFields
+  }
+}

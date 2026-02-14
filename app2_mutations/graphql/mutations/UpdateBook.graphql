@@ -1,0 +1,9 @@
+mutation UpdateBook($input: UpdateBookInput!) {
+  updateBook(input: $input) {
+    success
+    message
+    book {
+      ...BookFields
+    }
+  }
+}

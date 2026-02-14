@@ -1,0 +1,7 @@
+fragment ReviewFields on ReviewType {
+  id
+  rating
+  reviewText
+  reviewer
+  createdAt
+}

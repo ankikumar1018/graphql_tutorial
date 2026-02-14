@@ -1,0 +1,10 @@
+query CachedMetrics {
+  allOrganizations {
+    id
+    name
+    employeeCountCached
+    activeEmployeesCount
+    projectCount
+    totalBudget
+  }
+}

@@ -1,0 +1,7 @@
+query AggregateProjectStats {
+  allProjects {
+    status
+    budget
+    completionPercentage
+  }
+}

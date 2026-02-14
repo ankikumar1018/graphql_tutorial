@@ -1,0 +1,6 @@
+mutation DeleteBook($id: Int!) {
+  deleteBook(id: $id) {
+    success
+    message
+  }
+}

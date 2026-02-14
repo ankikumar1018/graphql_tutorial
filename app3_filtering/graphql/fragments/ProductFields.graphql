@@ -1,0 +1,12 @@
+fragment ProductFields on ProductType {
+  id
+  title
+  description
+  price
+  stockQuantity
+  rating
+  reviewCount
+  isFeatured
+  isActive
+  createdAt
+}

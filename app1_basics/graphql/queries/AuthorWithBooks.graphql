@@ -1,0 +1,20 @@
+query AuthorWithBooks($authorId: Int!) {
+  author(id: $authorId) {
+    id
+    name
+    email
+    bio
+    birthYear
+    createdAt
+    books {
+      id
+      title
+      description
+      publishedYear
+      pages
+      isbn
+      rating
+      createdAt
+    }
+  }
+}

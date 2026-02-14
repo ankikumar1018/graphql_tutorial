@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "GraphQL App 5 - Performance, Testing & Production",
-    "description": "Demonstrating performance optimization patterns: N+1 prevention with DataLoader, caching, database indexes, and testing strategies",
+    "name": "GraphQL App 5 - Performance & Real-time",
+    "description": "Demonstrating performance optimization patterns: N+1 prevention with DataLoader, caching, database indexes, and real-time capabilities",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {

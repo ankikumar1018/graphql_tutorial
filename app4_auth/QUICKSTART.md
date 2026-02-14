@@ -588,6 +588,6 @@ Check out **App 5** for:
 - Performance optimization
 - Testing & debugging
 - Real-time updates (subscriptions)
-- Production deployment
+- Performance optimization techniques
 
 Happy coding! 🚀

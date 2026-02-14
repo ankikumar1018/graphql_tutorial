@@ -1,0 +1,10 @@
+fragment BookFields on BookType {
+  id
+  title
+  description
+  publishedYear
+  pages
+  isbn
+  rating
+  createdAt
+}

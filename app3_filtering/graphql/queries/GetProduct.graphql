@@ -1,0 +1,5 @@
+query GetProduct($productId: Int!) {
+  product(id: $productId) {
+    ...ProductFields
+  }
+}

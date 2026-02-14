@@ -1,0 +1,5 @@
+query GetComments($postId: Int!) {
+  postComments(postId: $postId) {
+    ...CommentFields
+  }
+}

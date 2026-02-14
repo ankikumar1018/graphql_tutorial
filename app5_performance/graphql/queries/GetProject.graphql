@@ -1,0 +1,8 @@
+query GetProject($projectId: Int!) {
+  project(id: $projectId) {
+    ...ProjectFields
+    teamMembers {
+      ...EmployeeFields
+    }
+  }
+}

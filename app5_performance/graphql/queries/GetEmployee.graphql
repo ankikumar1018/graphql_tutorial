@@ -1,0 +1,5 @@
+query GetEmployee($employeeId: Int!) {
+  employee(id: $employeeId) {
+    ...EmployeeFields
+  }
+}

@@ -224,10 +224,9 @@ class Query(graphene.ObjectType):
     
     # Stats/Aggregations
     avg_product_price = graphene.Float(description="Average product price")
-    products_by_price_range = graphene.Field(
-        graphene.ObjectType,
-        description="Products grouped by price range"
-    )
+    price_range_budget = graphene.Int(description="Budget products count")
+    price_range_mid = graphene.Int(description="Mid-range products count")
+    price_range_premium = graphene.Int(description="Premium products count")
     
     # Resolvers
     def resolve_all_categories(self, info):
@@ -364,20 +363,17 @@ class Query(graphene.ObjectType):
         avg = Product.objects.aggregate(Avg('price'))['price__avg']
         return float(avg) if avg else 0
     
-    def resolve_products_by_price_range(self, info):
-        """Group products by price range."""
-        from django.db.models import Count, Case, When
-        
-        ranges = {
-            'budget': Product.objects.filter(price__lt=50).count(),
-            'mid': Product.objects.filter(price__gte=50, price__lt=200).count(),
-            'premium': Product.objects.filter(price__gte=200).count(),
-        }
-        
-        return graphene.ObjectType.create_type(
-            'PriceRanges',
-            {k: graphene.Int() for k in ranges}
-        )(**ranges)
+    def resolve_price_range_budget(self, info):
+        """Count budget products (< $50)."""
+        return Product.objects.filter(price__lt=50).count()
+    
+    def resolve_price_range_mid(self, info):
+        """Count mid-range products ($50-$200)."""
+        return Product.objects.filter(price__gte=50, price__lt=200).count()
+    
+    def resolve_price_range_premium(self, info):
+        """Count premium products (>= $200)."""
+        return Product.objects.filter(price__gte=200).count()
 
 
 schema = graphene.Schema(query=Query)

@@ -1,0 +1,5 @@
+query GetPerformanceMetrics($metricType: String) {
+  performanceMetrics(metricType: $metricType) {
+    ...PerformanceFields
+  }
+}

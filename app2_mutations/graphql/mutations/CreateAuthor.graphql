@@ -1,0 +1,9 @@
+mutation CreateAuthor($input: CreateAuthorInput!) {
+  createAuthor(input: $input) {
+    success
+    message
+    author {
+      ...AuthorFields
+    }
+  }
+}

@@ -1,6 +1,6 @@
-# Quick Start Guide - App 5: Performance & Production
+# Quick Start Guide - App 5: Performance & Real-time
 
-Get up and running in 5 minutes to understand query optimization, caching, and testing patterns.
+Get up and running in 5 minutes to understand query optimization, caching, and real-time capabilities.
 
 ## 5-Minute Setup
 
@@ -44,8 +44,8 @@ http://localhost:8000/graphql/
 ✓ 200 Performance metrics
   • 7 days of API response times, page loads, DB times
 
-✓ 40 Test results
-  • Passed, failed, and skipped tests
+✓ Performance data for monitoring
+  • Real-time metrics and benchmarks
 ```
 
 ## 10 Essential Queries
@@ -296,52 +296,7 @@ query {
 }
 ```
 
-**Application:** Find bottlenecks in production
-
----
-
-### 9️⃣ Get Test Summary
-
-Test tracking and QA metrics:
-
-```graphql
-query {
-  testSummary {
-    totalTests
-    passed
-    failed
-    skipped
-    passRate
-    totalExecutionTime
-  }
-}
-```
-
-**Answers:**
-- What's our test pass rate?
-- How long do tests take?
-- How many are skipped?
-
----
-
-### 🔟 Get Failed Tests
-
-Debugging test failures:
-
-```graphql
-query {
-  failedTests {
-    testName
-    testFile
-    status
-    executionTime
-    errorMessage
-    createdAt
-  }
-}
-```
-
-**Use case:** CI/CD pipeline monitoring
+**Application:** Find bottlenecks and optimize query performance
 
 ## Understanding Query Optimization
 
@@ -436,9 +391,9 @@ class Meta:
 SELECT indexname, indexdef FROM pg_indexes WHERE tablename = 'perf_app_employee';
 ```
 
-## Testing Queries
+## Try These Optimization Queries
 
-### Test All Optimizations
+### Performance Testing
 
 ```bash
 # In GraphQL Playground, run in sequence:
@@ -448,28 +403,28 @@ query {
   allOrganizations { name }
 }
 
-# 2. With relationships
+# 2. With relationships (select_related)
 query {
   allEmployees {
     name
-    organization { name }  # ← select_related prevents N+1
+    organization { name }  # ← Prevents N+1
   }
 }
 
-# 3. M2M relationships
+# 3. M2M relationships (prefetch_related)
 query {
   allProjects {
     name
-    teamMembers { name }  # ← prefetch_related optimizes
+    teamMembers { name }  # ← Batch loads M2M
   }
 }
 
-# 4. Aggregations
+# 4. Aggregations (database-level)
 query {
   employeeStatsByDepartment {
     department
     count
-    averageSalary  # ← Database level aggregation
+    averageSalary  # ← Single query with GROUP BY
   }
 }
 
@@ -480,24 +435,7 @@ query {
     count
   }
 }
-
-# 6. Test results
-query {
-  testSummary {
-    totalTests
-    passRate
-  }
-}
 ```
-
-## Production Checklist
-
-- [ ] Set `DEBUG = False` in settings
-- [ ] Use PostgreSQL (not SQLite)
-- [ ] Configure Redis for caching
-- [ ] Enable database indexes
-- [ ] Setup error tracking (Sentry)
-- [ ] Configure logging
 - [ ] Enable rate limiting
 - [ ] Setup monitoring (Prometheus)
 - [ ] Configure SSL/HTTPS
@@ -580,12 +518,11 @@ def resolve_employees(self, info):
 
 1. ✅ Run sample data: `python add_sample_data.py`
 2. ✅ Explore GraphQL Playground: http://localhost:8000/graphql/
-3. ✅ Try 10 queries above
+3. ✅ Try optimization queries above
 4. ✅ Study resolver code in config/schema.py
 5. ✅ Read README.md for deep dives
-6. 🔜 Deploy to production with checklist
-7. 🔜 Monitor performance metrics
-8. 🔜 Implement caching strategy
+6. ✅ Experiment with different query patterns
+7. ✅ Monitor performance metrics
 
 ## Quick Tips
 

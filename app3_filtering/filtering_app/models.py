@@ -9,6 +9,7 @@ This module demonstrates:
 
 from django.db import models
 from django.contrib.auth.models import User
+from decimal import Decimal
 
 
 class Category(models.Model):
@@ -68,7 +69,7 @@ class Product(models.Model):
     def discounted_price(self):
         """Calculate discounted price."""
         if self.discount_percent:
-            return self.price * (1 - self.discount_percent / 100)
+            return self.price * (Decimal('1') - Decimal(str(self.discount_percent)) / Decimal('100'))
         return self.price
 
 

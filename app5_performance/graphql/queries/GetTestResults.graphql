@@ -1,0 +1,11 @@
+query GetTestResults($status: String) {
+  testResults(status: $status) {
+    id
+    testName
+    testFile
+    status
+    executionTime
+    errorMessage
+    createdAt
+  }
+}

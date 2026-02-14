@@ -1,0 +1,5 @@
+query FilterProductsByRating($minRating: Float!) {
+  filterProducts(minRating: $minRating) {
+    ...ProductFields
+  }
+}

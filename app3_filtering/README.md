@@ -949,7 +949,7 @@ Use the included Postman collection:
 
 After mastering App 3, explore:
 - **App 4:** Authentication, Authorization & Permissions
-- **App 5:** Performance, Testing, Real-time & Production
+- **App 5:** Performance & Real-time
 
 ---
 

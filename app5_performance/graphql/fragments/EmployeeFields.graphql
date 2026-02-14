@@ -1,0 +1,9 @@
+fragment EmployeeFields on EmployeeType {
+  id
+  name
+  email
+  department
+  salary
+  isActive
+  hireDate
+}

@@ -1,0 +1,9 @@
+fragment PostFields on PostType {
+  id
+  title
+  content
+  status
+  canComment
+  createdAt
+  updatedAt
+}

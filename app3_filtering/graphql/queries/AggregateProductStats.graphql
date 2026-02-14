@@ -1,0 +1,8 @@
+query AggregateProductStats {
+  aggregateProductStats {
+    totalProducts
+    averagePrice
+    averageRating
+    activeProducts
+  }
+}

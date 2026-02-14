@@ -1,0 +1,9 @@
+query GetPublisher($publisherId: Int!) {
+  publisher(id: $publisherId) {
+    id
+    name
+    country
+    website
+    createdAt
+  }
+}

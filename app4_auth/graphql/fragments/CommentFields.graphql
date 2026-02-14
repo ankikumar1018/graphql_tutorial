@@ -1,0 +1,11 @@
+fragment CommentFields on CommentType {
+  id
+  content
+  isApproved
+  createdAt
+  author {
+    user {
+      username
+    }
+  }
+}

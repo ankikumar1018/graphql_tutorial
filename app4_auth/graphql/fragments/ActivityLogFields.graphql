@@ -1,0 +1,12 @@
+fragment ActivityLogFields on ActivityLogType {
+  id
+  user {
+    user {
+      username
+    }
+  }
+  action
+  ipAddress
+  userAgent
+  createdAt
+}

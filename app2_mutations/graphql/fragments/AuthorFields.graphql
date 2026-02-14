@@ -1,0 +1,8 @@
+fragment AuthorFields on AuthorType {
+  id
+  name
+  email
+  bio
+  birthYear
+  createdAt
+}

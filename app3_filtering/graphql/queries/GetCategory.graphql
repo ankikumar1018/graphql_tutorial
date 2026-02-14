@@ -1,0 +1,8 @@
+query GetCategory($categoryId: Int!) {
+  category(id: $categoryId) {
+    ...CategoryFields
+    products {
+      ...ProductFields
+    }
+  }
+}

@@ -1,0 +1,8 @@
+query GetAllPosts {
+  allPosts {
+    ...PostFields
+    author {
+      ...UserFields
+    }
+  }
+}

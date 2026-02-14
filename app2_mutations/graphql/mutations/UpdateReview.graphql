@@ -1,0 +1,9 @@
+mutation UpdateReview($input: UpdateReviewInput!) {
+  updateReview(input: $input) {
+    success
+    message
+    review {
+      ...ReviewFields
+    }
+  }
+}
