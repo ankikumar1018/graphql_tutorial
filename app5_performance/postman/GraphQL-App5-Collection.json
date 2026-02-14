@@ -1,0 +1,805 @@
+{
+  "info": {
+    "name": "GraphQL App 5 - Performance, Testing & Production",
+    "description": "Demonstrating performance optimization patterns: N+1 prevention with DataLoader, caching, database indexes, and testing strategies",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "noauth"
+  },
+  "item": [
+    {
+      "name": "1. Organization Queries",
+      "item": [
+        {
+          "name": "Get All Organizations",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.code === 200);",
+                  "pm.test(\"Has allOrganizations\", () => pm.response.json().data.allOrganizations);",
+                  "pm.test(\"Returns array\", () => Array.isArray(pm.response.json().data.allOrganizations));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\n  allOrganizations {\n    id\n    name\n    slug\n    website\n    isActive\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Organization by ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetOrg($id: Int!) {\n  organization(id: $id) {\n    id\n    name\n    slug\n    description\n    website\n    isActive\n    createdAt\n  }\n}",
+                "variables": {
+                  "id": 1
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Organization with Cached Employee Count",
+          "description": "Demonstrates caching: employee_count_cached uses cache instead of database query",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\n  allOrganizations {\n    id\n    name\n    employeeCountCached\n    activeEmployeesCount\n    projectCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Organizations by Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\n  organizationsByStatus(isActive: true) {\n    id\n    name\n    isActive\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Employee Queries - N+1 Prevention",
+      "description": "These queries demonstrate the N+1 problem and how to prevent it using database optimizations",
+      "item": [
+        {
+          "name": "Get All Employees",
+          "description": "select_related('organization') prevents N+1 by joining organization data",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\n  allEmployees {\n    id\n    name\n    email\n    department\n    salary\n    organization {\n      id\n      name\n    }\n    isActive\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Employees by Organization",
+          "description": "Returns all employees in a specific organization with optimized query",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetOrgEmployees($orgId: Int!) {\n  employeesByOrganization(organizationId: $orgId) {\n    id\n    name\n    email\n    department\n    salary\n    organizationName\n    hireDate\n  }\n}",
+                "variables": {
+                  "orgId": 1
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Employees by Department",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetDeptEmployees($dept: String!) {\n  employeesByDepartment(department: $dept) {\n    id\n    name\n    email\n    department\n    salary\n    organization {\n      name\n    }\n    isActive\n  }\n}",
+                "variables": {
+                  "dept": "Engineering"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Expensive Employees (High Salary)",
+          "description": "Get employees earning above threshold, optimized with index on salary field",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetExpensive($minSalary: Float!) {\n  expensiveEmployees(minSalary: $minSalary) {\n    id\n    name\n    email\n    department\n    salary\n    organization {\n      name\n    }\n  }\n}",
+                "variables": {
+                  "minSalary": 80000.0
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Employee by ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetEmployee($id: Int!) {\n  employee(id: $id) {\n    id\n    name\n    email\n    department\n    salary\n    organization {\n      id\n      name\n    }\n    isActive\n    hireDate\n  }\n}",
+                "variables": {
+                  "id": 1
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Project Queries - M2M Optimization",
+      "description": "Demonstrating prefetch_related for Many-to-Many relationships to prevent N+1 on joins",
+      "item": [
+        {
+          "name": "Get All Projects",
+          "description": "prefetch_related('team_members') optimizes M2M query",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\n  allProjects {\n    id\n    name\n    slug\n    description\n    status\n    organizationName\n    teamSize\n    budget\n    completionPercentage\n    startDate\n    endDate\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Projects by Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetProjectsByStatus($status: String!) {\n  projectsByStatus(status: $status) {\n    id\n    name\n    description\n    status\n    teamSize\n    budget\n    completionPercentage\n  }\n}",
+                "variables": {
+                  "status": "in_progress"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Projects by Organization",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetOrgProjects($orgId: Int!) {\n  projectsByOrganization(organizationId: $orgId) {\n    id\n    name\n    status\n    budget\n    teamSize\n    completionPercentage\n  }\n}",
+                "variables": {
+                  "orgId": 1
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Project with Team Members",
+          "description": "Demonstrates M2M optimization - all team members loaded in single query",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetProject($id: Int!) {\n  project(id: $id) {\n    id\n    name\n    description\n    status\n    organizationName\n    budget\n    teamSize\n    completionPercentage\n    teamMembers {\n      id\n      name\n      email\n      department\n      salary\n    }\n  }\n}",
+                "variables": {
+                  "id": 1
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Aggregation & Statistics Queries",
+      "description": "Demonstrating aggregation functions (AVG, COUNT, SUM) for analytics",
+      "item": [
+        {
+          "name": "Get Employee Stats by Department",
+          "description": "Shows department statistics: count and average salary (uses aggregation)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\n  employeeStatsByDepartment {\n    department\n    count\n    averageSalary\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Performance Metrics Monitoring",
+      "description": "Queries for monitoring GraphQL and API performance metrics",
+      "item": [
+        {
+          "name": "Get All Performance Metrics",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\n  performanceMetrics {\n    id\n    metricType\n    value\n    endpoint\n    statusCode\n    timestamp\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Performance Metrics by Type",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetMetricsByType($type: String!) {\n  performanceMetrics(metricType: $type) {\n    id\n    metricType\n    value\n    endpoint\n    timestamp\n  }\n}",
+                "variables": {
+                  "type": "api_response"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Performance Summary",
+          "description": "Aggregated metrics: average, min, max, count (uses database aggregation)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetSummary($type: String!) {\n  performanceSummary(metricType: $type) {\n    metricType\n    averageValue\n    count\n    maxValue\n    minValue\n  }\n}",
+                "variables": {
+                  "type": "api_response"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Slowest Endpoints",
+          "description": "API endpoints with highest response time",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetSlowest($limit: Int) {\n  slowestEndpoints(limit: $limit) {\n    id\n    endpoint\n    value\n    statusCode\n    timestamp\n  }\n}",
+                "variables": {
+                  "limit": 10
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Testing & QA",
+      "description": "Queries for test results and quality assurance monitoring",
+      "item": [
+        {
+          "name": "Get All Test Results",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\n  testResults {\n    id\n    testName\n    testFile\n    status\n    executionTime\n    errorMessage\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Test Results by Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetTestsByStatus($status: String!) {\n  testResults(status: $status) {\n    id\n    testName\n    testFile\n    status\n    executionTime\n    createdAt\n  }\n}",
+                "variables": {
+                  "status": "passed"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Failed Tests",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\n  failedTests {\n    id\n    testName\n    testFile\n    status\n    executionTime\n    errorMessage\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Test Execution Summary",
+          "description": "Overall test statistics: pass rate, total time, counts by status",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\n  testSummary {\n    totalTests\n    passed\n    failed\n    skipped\n    passRate\n    totalExecutionTime\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Complex Queries - Performance Patterns",
+      "description": "Advanced queries showing optimization strategies",
+      "item": [
+        {
+          "name": "Get Organization with All Details",
+          "description": "Complete organization data with aggregations and related entities",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetOrgDetailed($id: Int!) {\n  organization(id: $id) {\n    id\n    name\n    slug\n    description\n    website\n    isActive\n    employeeCountCached\n    activeEmployeesCount\n    projectCount\n    totalBudget\n    createdAt\n  }\n}",
+                "variables": {
+                  "id": 1
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

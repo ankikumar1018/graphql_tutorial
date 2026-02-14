@@ -1,0 +1,912 @@
+{
+  "info": {
+    "name": "GraphQL App 4 - Authentication, Authorization & Permissions",
+    "description": "Collection for testing JWT authentication, role-based access control, and permission-based queries",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation RegisterUser($input: UserRegisterInput!) {\n  register(input: $input) {\n    success\n    message\n    user {\n      id\n      username\n      email\n      firstName\n      lastName\n    }\n    token\n  }\n}",
+                "variables": "{\"input\": {\"username\": \"newuser\", \"email\": \"newuser@example.com\", \"password\": \"SecurePass123!\", \"firstName\": \"John\", \"lastName\": \"Doe\"}}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation LoginUser($username: String!, $password: String!) {\n  login(username: $username, password: $password) {\n    success\n    message\n    user {\n      id\n      username\n      email\n    }\n    token\n  }\n}",
+                "variables": "{\"username\": \"admin\", \"password\": \"admin123\"}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Register Duplicate Username",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation RegisterUser($input: UserRegisterInput!) {\n  register(input: $input) {\n    success\n    message\n  }\n}",
+                "variables": "{\"input\": {\"username\": \"admin\", \"email\": \"other@example.com\", \"password\": \"Pass123!\"}}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Login Invalid Credentials",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation LoginUser($username: String!, $password: String!) {\n  login(username: $username, password: $password) {\n    success\n    message\n  }\n}",
+                "variables": "{\"username\": \"admin\", \"password\": \"wrongpassword\"}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Queries",
+      "item": [
+        {
+          "name": "Get Current User (Me)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  me {\n    id\n    username\n    email\n    firstName\n    lastName\n    profile {\n      role\n      bio\n      isEmailVerified\n    }\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  user(id: 1) {\n    id\n    username\n    email\n    firstName\n    lastName\n    profile {\n      role\n      createdAt\n    }\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get User by Username",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  userByUsername(username: \"admin\") {\n    id\n    username\n    email\n    profile {\n      role\n      isEmailVerified\n    }\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allUsers {\n    id\n    username\n    email\n    profile {\n      role\n    }\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profile Management",
+      "item": [
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation UpdateProfile($input: UserProfileUpdateInput!) {\n  updateProfile(input: $input) {\n    success\n    message\n    user {\n      id\n      firstName\n      lastName\n      profile {\n        bio\n      }\n    }\n  }\n}",
+                "variables": "{\"input\": {\"firstName\": \"John\", \"lastName\": \"Updated\", \"bio\": \"This is my updated bio\"}}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation ChangePassword($input: ChangePasswordInput!) {\n  changePassword(input: $input) {\n    success\n    message\n  }\n}",
+                "variables": "{\"input\": {\"oldPassword\": \"oldpass123\", \"newPassword\": \"newpass456!\"}}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Change Password Wrong Old",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation ChangePassword($input: ChangePasswordInput!) {\n  changePassword(input: $input) {\n    success\n    message\n  }\n}",
+                "variables": "{\"input\": {\"oldPassword\": \"wrongoldpass\", \"newPassword\": \"newpass456!\"}}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Posts - Public Queries",
+      "item": [
+        {
+          "name": "Get All Published Posts",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allPosts {\n    id\n    title\n    authorName\n    status\n    createdAt\n    commentCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get Post by ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  post(id: 1) {\n    id\n    title\n    content\n    authorName\n    status\n    canComment\n    commentCount\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get Posts by User ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  userPosts(userId: 1) {\n    id\n    title\n    authorName\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Posts - Create/Edit",
+      "item": [
+        {
+          "name": "Create Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CreatePost($input: PostInput!) {\n  createPost(input: $input) {\n    success\n    message\n    post {\n      id\n      title\n      status\n      authorName\n      createdAt\n    }\n  }\n}",
+                "variables": "{\"input\": {\"title\": \"My First Post\", \"content\": \"This is the content of my post\", \"status\": \"published\", \"canComment\": true}}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Create Post as Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CreatePost($input: PostInput!) {\n  createPost(input: $input) {\n    success\n    message\n    post {\n      id\n      title\n      status\n    }\n  }\n}",
+                "variables": "{\"input\": {\"title\": \"Draft Post\", \"content\": \"Work in progress\", \"status\": \"draft\"}}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Create Post No Authentication",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CreatePost($input: PostInput!) {\n  createPost(input: $input) {\n    success\n    message\n  }\n}",
+                "variables": "{\"input\": {\"title\": \"Test\", \"content\": \"Test\"}}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Update Own Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation UpdatePost($id: Int!, $input: PostInput!) {\n  updatePost(id: $id, input: $input) {\n    success\n    message\n    post {\n      id\n      title\n      content\n      status\n    }\n  }\n}",
+                "variables": "{\"id\": 1, \"input\": {\"title\": \"Updated Title\", \"content\": \"Updated content here\", \"status\": \"published\"}}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Update Other User's Post (Not Owner)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <user_token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation UpdatePost($id: Int!, $input: PostInput!) {\n  updatePost(id: $id, input: $input) {\n    success\n    message\n  }\n}",
+                "variables": "{\"id\": 2, \"input\": {\"title\": \"Hacked\", \"content\": \"Hacked content\"}}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Delete Own Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation DeletePost($id: Int!) {\n  deletePost(id: $id) {\n    success\n    message\n  }\n}",
+                "variables": "{\"id\": 1}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Comments",
+      "item": [
+        {
+          "name": "Get Comments for Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  postComments(postId: 1) {\n    id\n    text\n    authorName\n    isApproved\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Create Comment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CreateComment($input: CommentInput!) {\n  createComment(input: $input) {\n    success\n    message\n    comment {\n      id\n      text\n      authorName\n      isApproved\n    }\n  }\n}",
+                "variables": "{\"input\": {\"postId\": 1, \"text\": \"Great post! Thanks for sharing.\"}}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Create Comment on Closed Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation CreateComment($input: CommentInput!) {\n  createComment(input: $input) {\n    success\n    message\n  }\n}",
+                "variables": "{\"input\": {\"postId\": 999, \"text\": \"Test comment\"}}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get Pending Comments (Moderator)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <moderator_token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  pendingComments {\n    id\n    text\n    authorName\n    post {\n      title\n    }\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Approve Comment (Admin/Moderator)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <moderator_token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation ApproveComment($id: Int!) {\n  approveComment(id: $id) {\n    success\n    message\n    comment {\n      id\n      isApproved\n    }\n  }\n}",
+                "variables": "{\"id\": 1}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Activity Logs",
+      "item": [
+        {
+          "name": "Get My Activity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  myActivity {\n    id\n    action\n    details\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get User Activity (Admin Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <admin_token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  userActivity(userId: 2) {\n    id\n    action\n    details\n    username\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get All Activity (Admin Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <admin_token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allActivity {\n    id\n    username\n    action\n    details\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Permission Tests",
+      "item": [
+        {
+          "name": "Get My Posts (Authenticated)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  myPosts {\n    id\n    title\n    status\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get My Posts (Not Authenticated)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  myPosts {\n    id\n    title\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Check Post Edit Permission",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  post(id: 1) {\n    id\n    title\n    canEdit\n    canDelete\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

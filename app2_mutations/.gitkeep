@@ -1,0 +1,126 @@
+# App 2 Complete - Mutations, Validation & Relationships
+
+This directory contains a complete, production-quality GraphQL API with mutations and complex relationships.
+
+## 🎯 What's Included
+
+📁 **config/** - Django project configuration
+- `settings.py` - Django and Graphene settings
+- `urls.py` - GraphQL endpoint at `/graphql/`
+- `schema.py` - GraphQL schema with 10 mutations + 8 queries
+
+📁 **mutations_app/** - Django application with models
+- `models.py` - 4 models (Author, Book, Publisher, Review)
+- `admin.py` - Django admin configuration
+- `migrations/` - Database migrations
+
+📁 **postman/** - Postman collection
+- `GraphQL-App2-Collection.json` - 20 pre-configured requests
+- `README.md` - Postman setup guide
+
+📄 **README.md** - Complete API documentation
+📄 **QUICKSTART.md** - 5-minute setup guide
+📄 **add_sample_data.py** - Sample data generator
+📄 **manage.py** - Django management
+📄 **requirements.txt** - Python dependencies
+
+## 🏗️ Models Architecture
+
+```
+Publisher ←─── ManyToMany ───→ Author
+    ↓                              ↓
+    └──── OneToMany ────→ Book ←─────┘
+                           ↓
+                         OneToOne
+                           ↓
+                         Review
+```
+
+## ✨ Features
+
+✅ **10 Mutations:**
+- createAuthor, updateAuthor, deleteAuthor
+- createPublisher
+- createBook, updateBook, deleteBook
+- createReview, updateReview, deleteReview
+
+✅ **8 Queries:**
+- allAuthors, author
+- allBooks, book
+- allPublishers, publisher
+- allReviews, review
+
+✅ **Full Validation:**
+- Email uniqueness
+- ISBN uniqueness
+- Rating (1-5)
+- Birth year validation
+- Page count validation
+
+✅ **Error Handling:**
+- Structured error responses
+- Validation messages
+- Resource not found handling
+
+✅ **Relationships:**
+- ForeignKey (Book → Author, Book → Publisher)
+- OneToOne (Book → Review)
+- ManyToMany (Author ↔ Publisher)
+
+## 🚀 Quick Start
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py shell < add_sample_data.py
+python manage.py runserver
+```
+
+Visit: http://127.0.0.1:8000/graphql/
+
+## 📚 What You'll Learn
+
+✅ GraphQL mutations for CRUD operations  
+✅ Input type validation  
+✅ Error handling and responses  
+✅ Complex relationships in GraphQL  
+✅ Nested queries  
+✅ Request/response patterns  
+
+## 🔗 Postman Collection
+
+Import `postman/GraphQL-App2-Collection.json` into Postman:
+- 20 pre-configured requests
+- Examples of all mutations
+- Error testing scenarios
+- No environment variables needed
+
+## 📖 Key Concepts
+
+### Mutation
+A GraphQL operation that modifies data (CREATE, UPDATE, DELETE).
+
+### Input Type
+Structured input validation for mutations.
+
+### Relationships
+- **ForeignKey:** One-to-many
+- **OneToOne:** One-to-one  
+- **ManyToMany:** Many-to-many
+
+### Error Handling
+All mutations return `success` boolean and `message` field.
+
+## 🎯 Next Step
+
+After mastering this app, move to **App 3** to learn:
+- Advanced filtering
+- Sorting and ordering
+- Pagination strategies
+- Complex query patterns
+
+---
+
+**Status:** ✅ Complete and Ready to Use

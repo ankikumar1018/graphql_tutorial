@@ -1,0 +1,52 @@
+# App 1 Complete - GraphQL Basics & Django Models
+
+This directory contains a complete, working GraphQL API using Django and Graphene.
+
+## What's Included
+
+📁 **config/** - Django project configuration
+- `settings.py` - Django and Graphene settings
+- `urls.py` - GraphQL endpoint at `/graphql/`
+- `schema.py` - GraphQL schema definition
+
+📁 **basics_app/** - Django application with models
+- `models.py` - Author and Book models
+- `admin.py` - Django admin configuration
+- `migrations/` - Database migrations
+- `tests.py` - GraphQL query tests
+
+📄 **README.md** - Complete documentation with examples
+📄 **QUICKSTART.md** - 5-minute setup guide
+📄 **add_sample_data.py** - Script to populate test data
+📄 **manage.py** - Django management script
+📄 **requirements.txt** - Python dependencies
+
+## Quick Start
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py shell < add_sample_data.py
+python manage.py runserver
+```
+
+Then visit: http://127.0.0.1:8000/graphql/
+
+## What You'll Learn
+
+✅ GraphQL fundamentals  
+✅ Django model to GraphQL type conversion  
+✅ Query resolvers  
+✅ Relationships in GraphQL  
+✅ GraphiQL interface  
+✅ Testing GraphQL queries  
+
+## Next Step
+
+After mastering this app, move to **App 2** to learn:
+- Mutations (Create, Update, Delete)
+- Input validation
+- Error handling
+- Complex relationships

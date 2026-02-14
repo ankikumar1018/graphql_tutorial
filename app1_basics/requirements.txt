@@ -1,0 +1,5 @@
+Django==4.2.7
+graphene==3.3
+graphene-django==3.1.1
+django-filter==23.4
+python-dotenv==1.0.0

@@ -1,0 +1,158 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+ENV/
+env/
+.venv
+env.bak/
+venv.bak/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+/media
+/staticfiles
+/static
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+.settings/
+*.iml
+.editorconfig
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+*.env
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Node (if using any frontend tooling)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Testing
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+
+# IDE generated files
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Celery (if used)
+celerybeat-schedule
+
+# SageMath parsed files
+.sage.py
+
+# IPython
+.ipynb_checkpoints
+
+# Migrations (optional - uncomment if you want to version control them)
+# */migrations/*.py
+# !*/migrations/__init__.py
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Credentials and sensitive files
+secrets.json
+*.pem
+*.key
+*.crt
+
+# Temporary files
+*.tmp
+tmp/
+temp/
+
+# Redis
+dump.rdb
+
+# PostgreSQL
+*.sql
+
+# Postman (optional - keep if you want local Postman data)
+# Postman/
+
+# pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Local development
+.vscode-server/
+.vscode-server/**
+
+# OS specific
+.AppleDouble
+.LSOverride
+
+# Windows
+desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.directory

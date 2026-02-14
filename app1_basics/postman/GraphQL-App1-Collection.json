@@ -1,0 +1,561 @@
+{
+  "info": {
+    "_postman_id": "graphql-app1-basics",
+    "name": "GraphQL App 1 - Basics & Django Models",
+    "description": "Collection for testing GraphQL API queries. All endpoints point to http://127.0.0.1:8000/graphql/",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "12345"
+  },
+  "item": [
+    {
+      "name": "Author Queries",
+      "item": [
+        {
+          "name": "Get All Authors",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allAuthors {\n    id\n    name\n    email\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Author by ID (ID: 1)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  author(id: 1) {\n    id\n    name\n    email\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Author by ID (ID: 2)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  author(id: 2) {\n    id\n    name\n    email\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Authors with Book Count",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allAuthors {\n    id\n    name\n    email\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Book Queries",
+      "item": [
+        {
+          "name": "Get All Books",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allBooks {\n    id\n    title\n    description\n    author {\n      id\n      name\n    }\n    publishedDate\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Books (Minimal Fields)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allBooks {\n    id\n    title\n    author {\n      name\n    }\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Book by ID (ID: 1)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  book(id: 1) {\n    id\n    title\n    description\n    author {\n      id\n      name\n      email\n    }\n    publishedDate\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Book by ID (ID: 2)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  book(id: 2) {\n    id\n    title\n    author {\n      id\n      name\n      email\n    }\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Books with Full Author Info",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allBooks {\n    id\n    title\n    author {\n      name\n      email\n    }\n    publishedDate\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Combined Queries",
+      "item": [
+        {
+          "name": "Get Authors and Books Together",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allAuthors {\n    id\n    name\n    email\n  }\n  allBooks {\n    id\n    title\n    author {\n      name\n    }\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Specific Author and Specific Book",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  author(id: 1) {\n    id\n    name\n    email\n    createdAt\n  }\n  book(id: 1) {\n    id\n    title\n    author {\n      name\n    }\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Testing Relationships",
+      "item": [
+        {
+          "name": "Get Author 1 and All Books by That Author",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allBooks {\n    id\n    title\n    author {\n      id\n      name\n      email\n      createdAt\n    }\n    publishedDate\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Books (Extended Info)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allBooks {\n    id\n    title\n    description\n    author {\n      id\n      name\n      email\n    }\n    publishedDate\n    createdAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Error Testing",
+      "item": [
+        {
+          "name": "Get Author with Invalid ID (ID: 999)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  author(id: 999) {\n    id\n    name\n    email\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Book with Invalid ID (ID: 999)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  book(id: 999) {\n    id\n    title\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "graphql",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

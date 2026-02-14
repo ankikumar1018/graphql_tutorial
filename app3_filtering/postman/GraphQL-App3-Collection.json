@@ -1,0 +1,1001 @@
+{
+  "info": {
+    "name": "GraphQL App 3 - Filtering, Sorting & Pagination",
+    "description": "Collection for testing filtering, sorting, pagination, and advanced queries",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allCategories {\n    id\n    name\n    slug\n    description\n    productsCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get Category by ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  category(id: 1) {\n    id\n    name\n    slug\n    description\n    productsCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Basic Products",
+      "item": [
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allProducts {\n    id\n    name\n    slug\n    price\n    discountPercent\n    discountedPrice\n    category {\n      name\n    }\n    stockQuantity\n    isActive\n    rating\n    reviewCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get Product by ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  product(id: 1) {\n    id\n    name\n    slug\n    description\n    price\n    discountPercent\n    discountedPrice\n    category {\n      id\n      name\n    }\n    stockQuantity\n    isActive\n    isFeatured\n    rating\n    reviewCount\n    sku\n    createdAt\n    updatedAt\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Filtering - Single Filter",
+      "item": [
+        {
+          "name": "Filter by Name (Search)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(filters: {name: \"laptop\"}) {\n    items {\n      id\n      name\n      price\n      category {\n        name\n      }\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Filter by Active Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(filters: {isActive: true}) {\n    items {\n      id\n      name\n      isActive\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Filter by Featured Products",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(filters: {isFeatured: true}) {\n    items {\n      id\n      name\n      isFeatured\n      price\n      rating\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Filter by Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(filters: {categoryId: 1}) {\n    items {\n      id\n      name\n      category {\n        name\n      }\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Filter by Has Stock",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(filters: {hasStock: true}) {\n    items {\n      id\n      name\n      stockQuantity\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Filtering - Price Range",
+      "item": [
+        {
+          "name": "Products Under $100",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(filters: {priceMax: 100.0}) {\n    items {\n      id\n      name\n      price\n      discountPercent\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Products $100 to $500",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(filters: {priceMin: 100.0, priceMax: 500.0}) {\n    items {\n      id\n      name\n      price\n      category {\n        name\n      }\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Premium Products Over $500",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(filters: {priceMin: 500.0}) {\n    items {\n      id\n      name\n      price\n      rating\n      reviewCount\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Filtering - Rating",
+      "item": [
+        {
+          "name": "High Rated Products (4.0+)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(filters: {ratingMin: 4.0}) {\n    items {\n      id\n      name\n      rating\n      reviewCount\n      price\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Best Rated Products (4.5+)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(filters: {ratingMin: 4.5}) {\n    items {\n      id\n      name\n      rating\n      reviewCount\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Filtering - Combined Filters",
+      "item": [
+        {
+          "name": "Featured Products Under $100",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(filters: {isFeatured: true, priceMax: 100.0}) {\n    items {\n      id\n      name\n      price\n      isFeatured\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Electronics Category with Stock",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(filters: {categoryId: 1, hasStock: true}) {\n    items {\n      id\n      name\n      category {\n        name\n      }\n      stockQuantity\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "High Rated Featured Products",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(filters: {isFeatured: true, ratingMin: 4.5, isActive: true}) {\n    items {\n      id\n      name\n      rating\n      price\n      isFeatured\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sorting",
+      "item": [
+        {
+          "name": "Sort by Price (Ascending)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(sort: {field: \"price\", order: \"asc\", page: 1, pageSize: 10}) {\n    items {\n      id\n      name\n      price\n    }\n    totalCount\n    page\n    pageSize\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Sort by Price (Descending)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(sort: {field: \"price\", order: \"desc\", page: 1, pageSize: 10}) {\n    items {\n      id\n      name\n      price\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Sort by Rating (Descending)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(sort: {field: \"rating\", order: \"desc\", page: 1, pageSize: 10}) {\n    items {\n      id\n      name\n      rating\n      reviewCount\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Sort by Newest First",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(sort: {field: \"createdAt\", order: \"desc\", page: 1, pageSize: 10}) {\n    items {\n      id\n      name\n      createdAt\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pagination - Offset",
+      "item": [
+        {
+          "name": "Page 1 (10 items per page)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(page: 1, pageSize: 10) {\n    items {\n      id\n      name\n      price\n    }\n    totalCount\n    page\n    pageSize\n    totalPages\n    hasNext\n    hasPrevious\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Page 2 (10 items per page)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(page: 2, pageSize: 10) {\n    items {\n      id\n      name\n      price\n    }\n    totalCount\n    page\n    pageSize\n    totalPages\n    hasNext\n    hasPrevious\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Custom Page Size (20 items)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(page: 1, pageSize: 20) {\n    items {\n      id\n      name\n      price\n    }\n    totalCount\n    page\n    pageSize\n    totalPages\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pagination - Cursor",
+      "item": [
+        {
+          "name": "First 10 Products",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsPaginated(first: 10) {\n    edges {\n      cursor\n      node {\n        id\n        name\n        price\n      }\n    }\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Next Page with After Cursor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsPaginated(first: 10, after: \"Y3Vyc29yOjEw\") {\n    edges {\n      cursor\n      node {\n        id\n        name\n        price\n      }\n    }\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Filter + Cursor Pagination",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsPaginated(first: 10, isActive: true, categoryId: 1) {\n    edges {\n      cursor\n      node {\n        id\n        name\n        category {\n          name\n        }\n      }\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Complex Queries",
+      "item": [
+        {
+          "name": "Filter + Sort + Pagination",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(\n    filters: {categoryId: 1, isActive: true, hasStock: true}\n    sort: {field: \"rating\", order: \"desc\"}\n    page: 1\n    pageSize: 5\n  ) {\n    items {\n      id\n      name\n      price\n      discountedPrice\n      rating\n      stockQuantity\n      category {\n        name\n      }\n    }\n    totalCount\n    totalPages\n    hasNext\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Search + Price Filter + Sort",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(\n    filters: {name: \"shirt\", priceMin: 20.0, priceMax: 50.0}\n    sort: {field: \"price\", order: \"asc\"}\n    page: 1\n    pageSize: 10\n  ) {\n    items {\n      id\n      name\n      price\n      discountPercent\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Multiple Filters Complex Query",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsFiltered(\n    filters: {\n      categoryId: 2\n      isActive: true\n      isFeatured: true\n      ratingMin: 4.5\n      priceMin: 40.0\n    }\n    sort: {field: \"reviewCount\", order: \"desc\"}\n    page: 1\n    pageSize: 10\n  ) {\n    items {\n      id\n      name\n      price\n      rating\n      reviewCount\n      isFeatured\n    }\n    totalCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Get All Reviews",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allReviews {\n    id\n    user\n    rating\n    title\n    comment\n    isVerifiedPurchase\n    helpfulCount\n    product {\n      name\n    }\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Reviews by Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  reviewsByProduct(productId: 1) {\n    id\n    user\n    rating\n    title\n    comment\n    isVerifiedPurchase\n    helpfulCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Reviews by Rating (5 stars)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  reviewsByRating(rating: 5) {\n    id\n    user\n    product {\n      name\n    }\n    title\n    comment\n    helpfulCount\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Aggregations & Statistics",
+      "item": [
+        {
+          "name": "Average Product Price",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  avgProductPrice\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Products by Price Range",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  productsByPriceRange {\n    priceRange\n    count\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Query Variables Example",
+      "item": [
+        {
+          "name": "Filter with Variables",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetProductsByFilter($categoryId: Int, $minPrice: Float, $maxPrice: Float, $isActive: Boolean) {\n  productsFiltered(filters: {categoryId: $categoryId, priceMin: $minPrice, priceMax: $maxPrice, isActive: $isActive}) {\n    items {\n      id\n      name\n      price\n      category {\n        name\n      }\n    }\n    totalCount\n  }\n}",
+                "variables": "{\"categoryId\": 1, \"minPrice\": 50, \"maxPrice\": 300, \"isActive\": true}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Paginated Search with Variables",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query SearchProducts($searchTerm: String, $page: Int, $pageSize: Int, $sortField: String, $sortOrder: String) {\n  productsFiltered(filters: {name: $searchTerm}, sort: {field: $sortField, order: $sortOrder}, page: $page, pageSize: $pageSize) {\n    items {\n      id\n      name\n      price\n      rating\n    }\n    totalCount\n    totalPages\n  }\n}",
+                "variables": "{\"searchTerm\": \"keyboard\", \"page\": 1, \"pageSize\": 10, \"sortField\": \"rating\", \"sortOrder\": \"desc\"}"
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/graphql/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

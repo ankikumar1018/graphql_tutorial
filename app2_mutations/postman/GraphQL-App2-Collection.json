@@ -1,0 +1,435 @@
+{
+  "info": {
+    "_postman_id": "graphql-app2-mutations",
+    "name": "GraphQL App 2 - Mutations, Validation & Relationships",
+    "description": "Collection for testing GraphQL mutations and complex queries. Endpoint: http://127.0.0.1:8000/graphql/",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Query Examples",
+      "item": [
+        {
+          "name": "Get All Authors with Publishers",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allAuthors {\n    id\n    name\n    email\n    bio\n    birthYear\n    publishers {\n      id\n      name\n      country\n    }\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get All Books with Author and Publisher",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allBooks {\n    id\n    title\n    description\n    author {\n      id\n      name\n      email\n    }\n    publisher {\n      id\n      name\n      country\n    }\n    publishedDate\n    pages\n    isbn\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get Book with Review",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  book(id: 1) {\n    id\n    title\n    author {\n      name\n    }\n    review {\n      rating\n      reviewText\n      reviewerName\n    }\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get Author with All Books",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  author(id: 1) {\n    id\n    name\n    email\n    bio\n    books {\n      id\n      title\n      publishedDate\n      author {\n        name\n      }\n    }\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get All Publishers",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allPublishers {\n    id\n    name\n    country\n    establishedYear\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Get All Reviews",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\n  allReviews {\n    id\n    book {\n      id\n      title\n    }\n    rating\n    reviewText\n    reviewerName\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Mutations",
+      "item": [
+        {
+          "name": "Create Author",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\n  createAuthor(input: {\n    name: \"Stephen King\"\n    email: \"stephen.king@example.com\"\n    bio: \"American author known for horror novels\"\n    birthYear: 1947\n  }) {\n    author {\n      id\n      name\n      email\n      bio\n    }\n    success\n    message\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Create Publisher",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\n  createPublisher(input: {\n    name: \"Penguin Books\"\n    country: \"United Kingdom\"\n    establishedYear: 1935\n  }) {\n    publisher {\n      id\n      name\n      country\n      establishedYear\n    }\n    success\n    message\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Create Book",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\n  createBook(input: {\n    title: \"The Shining\"\n    description: \"A psychological horror novel set in an isolated hotel\"\n    authorId: 1\n    publisherId: 1\n    publishedDate: \"1977-01-28\"\n    pages: 447\n    isbn: \"978-0385121675\"\n  }) {\n    book {\n      id\n      title\n      author {\n        name\n      }\n      publisher {\n        name\n      }\n    }\n    success\n    message\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Create Review",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\n  createReview(input: {\n    bookId: 1\n    rating: 5\n    reviewText: \"An incredible and terrifying masterpiece! Highly recommended for horror fans.\"\n    reviewerName: \"Jane Doe\"\n  }) {\n    review {\n      id\n      book {\n        title\n      }\n      rating\n      reviewText\n      reviewerName\n    }\n    success\n    message\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Update Mutations",
+      "item": [
+        {
+          "name": "Update Author",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\n  updateAuthor(id: 1, input: {\n    name: \"J.K. Rowling\"\n    email: \"jk.rowling@example.com\"\n    bio: \"British author and creator of Harry Potter series\"\n    birthYear: 1965\n  }) {\n    author {\n      id\n      name\n      email\n      bio\n    }\n    success\n    message\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Update Book",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\n  updateBook(id: 1, input: {\n    title: \"Updated Book Title\"\n    description: \"Updated description\"\n    authorId: 1\n    publisherId: 1\n    publishedDate: \"1997-06-26\"\n    pages: 350\n    isbn: \"978-0747532699\"\n  }) {\n    book {\n      id\n      title\n      description\n    }\n    success\n    message\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Update Review",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\n  updateReview(id: 1, input: {\n    bookId: 1\n    rating: 4\n    reviewText: \"Good book, but some parts were a bit slow\"\n    reviewerName: \"Jane Doe\"\n  }) {\n    review {\n      id\n      rating\n      reviewText\n    }\n    success\n    message\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete Mutations",
+      "item": [
+        {
+          "name": "Delete Author",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\n  deleteAuthor(id: 1) {\n    success\n    message\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Delete Book",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\n  deleteBook(id: 1) {\n    success\n    message\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Delete Review",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\n  deleteReview(id: 1) {\n    success\n    message\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Error Testing",
+      "item": [
+        {
+          "name": "Create Author - Duplicate Email",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\n  createAuthor(input: {\n    name: \"Duplicate User\"\n    email: \"jk.rowling@example.com\"\n    bio: \"This should fail\"\n    birthYear: 2000\n  }) {\n    author { id name }\n    success\n    message\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Create Book - Invalid Author ID",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\n  createBook(input: {\n    title: \"Test Book\"\n    description: \"This should fail\"\n    authorId: 999\n    publishedDate: \"2020-01-01\"\n    pages: 300\n  }) {\n    book { id title }\n    success\n    message\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Create Review - Invalid Rating",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\n  createReview(input: {\n    bookId: 1\n    rating: 10\n    reviewText: \"This should fail\"\n    reviewerName: \"Test User\"\n  }) {\n    review { id rating }\n    success\n    message\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        },
+        {
+          "name": "Delete Non-existent Author",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\n  deleteAuthor(id: 999) {\n    success\n    message\n  }\n}"
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/graphql/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["graphql", ""]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
